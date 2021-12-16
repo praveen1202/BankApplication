@@ -8,3 +8,6 @@ CREATE TABLE Transaction(AcctNo INT,TransID INT,TransType VARCHAR(100),Amount IN
 
 CREATE TABLE Balance(AcctNo INT,Balance INT,PRIMARY KEY(AcctNo),FOREIGN KEY(AcctNo) REFERENCES Customer(AcctNo));
 
+
+
+
