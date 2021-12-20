@@ -13,7 +13,7 @@ public class Withdraw extends HttpServlet{
 	public void service(HttpServletRequest req,HttpServletResponse res) throws IOException,ServletException {
 
 		PrintWriter out = res.getWriter();
-		HttpSession session = req.getSession();
+		// HttpSession session = req.getSession();
 		Customer ctmr = Globals.ctmr;
 
 		int amt = Integer.parseInt(req.getParameter("amt"));
@@ -23,6 +23,8 @@ public class Withdraw extends HttpServlet{
 			ctmr.balance -= amt;
 			out.println("Success");
 			out.println("Current Balance:" + ctmr.balance);
+			StoreTransaction.store(ctmr,"WithDrawal",amt);
+			res.sendRedirect("transaction.jsp");
 		}
 		else{
 			out.println("Invalid Entry/Low Balance");

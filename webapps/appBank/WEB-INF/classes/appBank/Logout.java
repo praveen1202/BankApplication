@@ -14,6 +14,7 @@ public class Logout extends HttpServlet{
 		HttpSession session = req.getSession();
 		session.removeAttribute("name");
 		session.invalidate();
+		Globals.ctmr = new Customer();
 		res.sendRedirect("login.jsp");
 
 	}
