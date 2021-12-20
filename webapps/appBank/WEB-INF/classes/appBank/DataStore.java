@@ -19,6 +19,14 @@ public class DataStore{
             preparedStmt.setInt(5,transactionDetails.balance);
 
             preparedStmt.execute(); //executes the query statement
+
+            String query2 = "UPDATE Customer SET Balance = ? WHERE AcctNo = ?";
+            PreparedStatement preparedStmt2 = con.prepareStatement(query2);
+            preparedStmt2.setInt(1,transactionDetails.balance);
+            preparedStmt2.setInt(2,transactionDetails.acctNo);
+
+            preparedStmt2.execute();
+            
 		}catch(ClassNotFoundException | SQLException e){
 			System.err.println("Got an exception!");
       		System.err.println(e.getMessage());
