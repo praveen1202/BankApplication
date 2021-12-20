@@ -29,7 +29,7 @@ public class Customer{
 		this.name = name;
 		this.balance = balance;
 		this.encryptedPwd = encryptedPwd;
-		this.readTransactFlag = false;
+		this.transctNum = 1;
 	}
 
 

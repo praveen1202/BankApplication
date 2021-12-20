@@ -25,6 +25,10 @@ public class Withdraw extends HttpServlet{
 			out.println("Current Balance:" + ctmr.balance);
 			StoreTransaction.store(ctmr,"WithDrawal",amt);
 			res.sendRedirect("transaction.jsp");
+			//temporarily put in out.println()
+			// for(Transaction iter : Globals.ctmr.transactDetails){
+			// out.println(iter.transID + "," + iter.transType +","+ iter.amt + "," + iter.balance+"\n"); 
+		// }
 		}
 		else{
 			out.println("Invalid Entry/Low Balance");

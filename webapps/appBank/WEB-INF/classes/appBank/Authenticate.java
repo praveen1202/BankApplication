@@ -12,11 +12,11 @@ import java.util.*;
 
 public class Authenticate extends HttpServlet{
     
-    public static Customer[] arr = new Customer[10];
-    static {
-        arr[0] = new Customer(11,"praveen",110,10000,"12345");
-        arr[1] = new Customer(12,"praveen",111,20000,"12346");
-    }
+    // public static Customer[] arr = new Customer[10];
+    // static {
+    //     arr[0] = new Customer(11,"praveen",110,10000,"12345");
+    //     arr[1] = new Customer(12,"praveen",111,20000,"12346");
+    // }
 
 
     @Override
@@ -32,6 +32,7 @@ public class Authenticate extends HttpServlet{
         // out.println("name : " + Globals.ctmr.name + "password : " + Globals.ctmr.encryptedPwd + "Balance : " + Globals.ctmr.balance + "Account No : " + Globals.ctmr.acctNo);
 
         if(ReadData.searchUser(custID,password)){
+            ReadData.readTransact();        //read and stores transactionDetails
             HttpSession session = req.getSession();
             session.setAttribute("name",Globals.ctmr.name);
             res.sendRedirect("features.jsp");
