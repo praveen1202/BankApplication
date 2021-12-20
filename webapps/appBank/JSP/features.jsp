@@ -18,17 +18,19 @@
 %>
 	hi, ${name}
 
-
-	<button id="withDraw">Withdraw</button>
-	<button id="deposit">Deposit</button>
-	<button id="neft">Net Banking</button>
+	<br>
+	<button id="withDraw">Withdraw</button><br>
 	<div id="withdrawDiv">
 		<form action = "withDraw" method = "POST">
 			Enter Amount to be Withdrawn: <input type="text" name="amt" >
 			<input type="submit" value="Withdraw">
 		</form>
 	</div>
+	
+	<button id="deposit">Deposit</button><br>
 	<div id="depositDiv">Hello</div>
+
+	<button id="neft">Net Banking</button><br>
 	<div id="neftDiv">Bye</div>
 
 	<form action = "logout" method = "POST">

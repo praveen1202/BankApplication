@@ -4,15 +4,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<link rel="stylesheet" href="css/styles.css" >
+	<link rel="stylesheet" href="css/styles.css">
 	<title>Features</title>
+	<script type="text/javascript" src="js/transactionReq.js"></script>
 </head>
 <body>
-
-
+	<div class="response"></div>
 	<%
 		if(session.getAttribute("name") == null){
 			response.sendRedirect("login.jsp");
 		}
-%>
-	hi, ${name}
+	%>
+	<a href="features.jsp"><button>Features</button></a>
+	<form action = "logout" method = "POST">
+		<input type="submit" value="Log out">
+	</form>
+</body>
+</html>
