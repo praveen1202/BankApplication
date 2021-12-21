@@ -1,3 +1,8 @@
 #withdrawDiv,#depositDiv,#neftDiv{
 	display: none;
 }
+
+table{
+	border: 2px solid;
+	width: 50%;
+}
