@@ -1,10 +1,10 @@
 package appBank;
 
 import java.sql.*;
-public class DataStore{
-	public static void writeTransaction(Transaction transactionDetails){
+public class DataStore{ 
+	public static void writeTransaction(Transaction transactionDetails){   //writes transaction into the database
 		try{
-			// Customer ctmr = Globals.ctmr;
+
 			Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/appBank", "sample", "sample");
             

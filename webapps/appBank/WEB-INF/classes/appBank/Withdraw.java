@@ -5,10 +5,10 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.*;
 import java.io.*;
 
-@WebServlet("/JSP/withDraw")
+@WebServlet("/JSP/withdraw/*")
 // have to add annotation or configure it in XML
 
-public class Withdraw extends HttpServlet{
+public class Withdraw extends HttpServlet{			//request comes from features.jsp
 	@Override
 	public void service(HttpServletRequest req,HttpServletResponse res) throws IOException,ServletException {
 
@@ -23,13 +23,8 @@ public class Withdraw extends HttpServlet{
 			ctmr.balance -= amt;
 			out.println("Success");
 			out.println("Current Balance:" + ctmr.balance);
-			StoreTransaction.store(ctmr,"WithDrawal",amt);
-			res.sendRedirect("transaction.jsp");
-			//temporarily put in out.println()
-			// for(Transaction iter : Globals.ctmr.transactDetails){
-			// out.println(iter.transID + "," + iter.transType +","+ iter.amt + "," + iter.balance+"\n"); 
-		// }
-		}
+			StoreTransaction.store(ctmr,"WithDrawal",amt);			//stores the transaction in local arraylist of customer
+			}
 		else{
 			out.println("Invalid Entry/Low Balance");
 		}

@@ -2,7 +2,7 @@ package appBank;
 
 import java.util.*;
 
-public class Transaction{
+public class Transaction{		
 	//stores transaction
 	int acctNo,amt,balance,transID;
 	String transType;

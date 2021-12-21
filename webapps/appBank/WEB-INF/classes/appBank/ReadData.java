@@ -3,10 +3,9 @@ package appBank;
 import java.sql.*;
 
 class ReadData{
-	public static boolean searchUser(int custID,String password){
+	public static boolean searchUser(int custID,String password){  //searches user on database 
 		try{
-            int acctNo;
-            int balance = 10000;
+            int acctNo,balance;
             String name;
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/appBank", "sample", "sample");
@@ -19,21 +18,10 @@ class ReadData{
             preparedStmt.setInt(1,custID);
             preparedStmt.setString(2,password);
             ResultSet rs = preparedStmt.executeQuery();
-            rs.next();			//this is usually before fist result
+            rs.next();			//cursor is placed before the word,
         	acctNo = rs.getInt(2);
         	name = rs.getString(3);
             balance = rs.getInt(5);
-
-
-            // String query2 = "SELECT Balance FROM Balance WHERE AcctNo= ? ";
-            // PreparedStatement preparedStmt1 = con.prepareStatement(query2);
-
-            // preparedStmt1.setInt(1,acctNo);
-            // ResultSet rs1 = preparedStmt1.executeQuery();
-            // if(rs1.next()){
-            // 	balance = rs1.getInt(1);
-            // }
-            // // rs1.next();
             
 
             Customer ctmr = new Customer(custID,name,acctNo,balance,password);
@@ -44,18 +32,16 @@ class ReadData{
             
         }
         catch(Exception ex){
-        	// String e = ex.toString();
-         //    return e;
         	return false;
         }
 	}
 
-    public static void readTransact(){
+    public static void readTransact(){      //reads transaction from database and stores in customer.transactDetails
         try{
 
         int acctNo,amt,balance;
         String transType;
-        int transID = 0;
+        int transID = 1;
         Customer ctmr = Globals.ctmr;
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/appBank", "sample", "sample");

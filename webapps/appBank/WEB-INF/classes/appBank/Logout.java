@@ -7,7 +7,7 @@ import java.io.*;
 
 @WebServlet("/JSP/logout")
 
-public class Logout extends HttpServlet{
+public class Logout extends HttpServlet{		//logs out the session and invalidate it
 
 	@Override
 	public void service(HttpServletRequest req,HttpServletResponse res) throws IOException,ServletException {

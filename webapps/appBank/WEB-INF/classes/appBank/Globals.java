@@ -1,5 +1,5 @@
 package appBank;
 
 public class Globals{
-	public static Customer ctmr;
+	public static Customer ctmr;		//temporarily store for easy access
 }

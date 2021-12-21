@@ -7,7 +7,7 @@ public class StoreTransaction{
 		ctmr.transctNum++;
 		ctmr.transactDetails.add(detailForCustomer);
 
-		DataStore.writeTransaction(detailForCustomer);
+		DataStore.writeTransaction(detailForCustomer);		//writes the transaction into the database
 		//storing in database
 
 	}

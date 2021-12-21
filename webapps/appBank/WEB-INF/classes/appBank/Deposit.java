@@ -8,7 +8,7 @@ import java.io.*;
 @WebServlet("/JSP/deposit")
 // have to add annotation or configure it in XML
 
-public class Deposit extends HttpServlet{
+public class Deposit extends HttpServlet{		//requests comes from features.jsp,same as withdraw
 	@Override
 	public void service(HttpServletRequest req,HttpServletResponse res) throws IOException,ServletException {
 

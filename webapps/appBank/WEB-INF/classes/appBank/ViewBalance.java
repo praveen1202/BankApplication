@@ -1,23 +1,25 @@
 package appBank;
 
+
+import org.json.JSONObject;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*; 
 import jakarta.servlet.*;
 import java.io.*;
 
-@WebServlet("/JSP/transactdetails/*")
+@WebServlet("/JSP/viewbalance/*")
 // have to add annotation or configure it in XML
 
-public class ReadTransaction extends HttpServlet{		//response the request by plain text(by PrinterWriter)
+public class ViewBalance extends HttpServlet{	//request for viewing balance
 	@Override
 	public void service(HttpServletRequest req,HttpServletResponse res) throws IOException,ServletException {
 
 		PrintWriter out = res.getWriter();
 
+		JSONObject object = new JSONObject();
+		object.put("Balance",Globals.ctmr.balance);
+		out.write(object.toString());
 
-		for(Transaction iter : Globals.ctmr.transactDetails){
-			out.write(iter.transID + "," + iter.transType +","+ iter.amt + "," + iter.balance+"\n"); 
-		}
-		res.setContentType("text/plain");
 	}
 }
+
