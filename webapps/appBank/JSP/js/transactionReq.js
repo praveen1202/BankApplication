@@ -1,5 +1,9 @@
-(function (){
-	var xhr = new XMLHttpRequest();
+document.querySelector("#viewtransaction").addEventListener("click",viewtransaction);
+document.querySelector("#viewbalance").addEventListener("click",callBalance);
+
+
+function viewtransaction(){
+	let xhr = new XMLHttpRequest();
 	xhr.open("GET","transactdetails",true);
 	xhr.onload = function(){
 		if(this.status == 200){
@@ -45,7 +49,8 @@
 			// if(temp){
 			// 	temp.textContent = this.responseText;	
 			// }
-			document.querySelector(".response").appendChild(tbl);			
+			document.querySelector(".response").appendChild(tbl);
+			document.querySelector("#viewtransaction").style.display = "none";			
 		}
 		else{
 			let temp = document.querySelector(".response");
@@ -54,6 +59,35 @@
 			}
 		}
 	}
-	
 	xhr.send();
-})();		//IIFE's
+}		//IIFE's
+
+
+
+
+
+function callBalance() {		//calls ViewBalance class via ajax and responsetext is JSON
+	// console.log("hi");
+	let xhr = new XMLHttpRequest();
+	xhr.open("GET","viewbalance",true);
+	xhr.send();
+	xhr.onload = function() {
+		console.log("hi");
+		if(this.status == 200){
+			let Obj = JSON.parse(this.responseText);
+			let ptag = document.createElement("p");
+			ptag.appendChild(document.createTextNode("Your Balance is " + Obj.Balance));
+			document.querySelector(".balance").appendChild(ptag);
+		}
+		else{
+			let temp = document.querySelector(".balance");
+			if(temp){
+				temp.addtextContent = "Error";	
+			}
+		}
+
+		
+	}
+
+}
+
