@@ -21,18 +21,24 @@
 	<br>
 	<button id="withDraw">Withdraw</button><br>
 	<div id="withdrawDiv">
-		<form action = "withDraw" method = "POST">
+		<form action = "withdraw" method = "POST">
 			Enter Amount to be Withdrawn: <input type="text" name="amt" >
 			<input type="submit" value="Withdraw">
 		</form>
 	</div>
 	
 	<button id="deposit">Deposit</button><br>
-	<div id="depositDiv">Hello</div>
+	<div id="depositDiv">
+		<form action = "deposit" method = "POST">
+			Enter Amount to be Deposited: <input type="text" name="amt" >
+			<input type="submit" value="Deposit">
+		</form>
+	</div>
 
 	<button id="neft">Net Banking</button><br>
 	<div id="neftDiv">Bye</div>
 
+	<a href="transaction.jsp"><button>View Transaction History</button></a>
 	<form action = "logout" method = "POST">
 		<input type="submit" value="Log out">
 	</form>
