@@ -4,9 +4,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<title>Transaction Details</title>
 	<link rel="stylesheet" href="css/styles.css">
-	<title>Features</title>
-	<script type="text/javascript" src="js/transactionReq.js"></script>
 </head>
 <body>
 	<div class="response"></div>
@@ -15,9 +14,13 @@
 			response.sendRedirect("login.jsp");
 		}
 	%>
+	<button id="viewtransaction">View Transaction History</button>
+	<div class="balance"></div>
+	<button id="viewbalance">View Balance</button>
 	<a href="features.jsp"><button>Features</button></a>
 	<form action = "logout" method = "POST">
 		<input type="submit" value="Log out">
 	</form>
+	<script type="text/javascript" src="js/transactionReq.js"></script>
 </body>
 </html>
