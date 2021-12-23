@@ -71,13 +71,15 @@ function callBalance() {		//calls ViewBalance class via ajax and responsetext is
 	let xhr = new XMLHttpRequest();
 	xhr.open("GET","viewbalance",true);
 	xhr.send();
+	
 	xhr.onload = function() {
-		console.log("hi");
+		// console.log("hi");
 		if(this.status == 200){
 			let Obj = JSON.parse(this.responseText);
 			let ptag = document.createElement("p");
 			ptag.appendChild(document.createTextNode("Your Balance is " + Obj.Balance));
 			document.querySelector(".balance").appendChild(ptag);
+			document.querySelector("#viewbalance").style.display = "none";
 		}
 		else{
 			let temp = document.querySelector(".balance");
