@@ -9,11 +9,11 @@
     <title>Sign Up</title>
 </head>
 <body>
-    <form action="sign" method="POST">
-        Enter UserID : <input type="text" name="custID"><br>
+    <form action="signup" method="POST">
+        Enter Name : <input type="text" name="name"><br>
         Enter Password : <input type="text" name="password1"><br>
         Re-Enter Password : <input type="text" name="password2"><br>
-        <input type="submit" value="Sign In">
+        <input type="submit" value="Sign Up">
     </form>
 </body>
 </html>
