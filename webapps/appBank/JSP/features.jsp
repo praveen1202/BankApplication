@@ -16,7 +16,8 @@
 			response.sendRedirect("login.jsp");
 		}
 %>
-	hi, ${name}
+	<span>Hi, ${name} </span><br>
+	<span>User ID: ${custID}</span>
 
 	<br>
 	<button id="withDraw">Withdraw</button><br>
