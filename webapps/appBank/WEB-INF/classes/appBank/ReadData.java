@@ -36,6 +36,28 @@ class ReadData{
         }
 	}
 
+    public static void searchUser(){        //for increasing the custID so that it remains unique
+        try{
+            int custID = 0;
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/appBank", "sample", "sample");
+
+            String query = "select * from Customer";
+
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+
+
+            ResultSet rs = preparedStmt.executeQuery();
+            while(rs.next()){          //cursor is placed before the word,
+                custID = rs.getInt(1);
+            }
+            Globals.custID = custID + 1;
+        }  catch(Exception e){
+            System.out.println(e);
+        }
+    }
+
+
     public static void readTransact(){      //reads transaction from database and stores in customer.transactDetails
         try{
 
@@ -45,8 +67,9 @@ class ReadData{
         Customer ctmr = Globals.ctmr;
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/appBank", "sample", "sample");
-        String query = "SELECT * FROM Transaction";
+        String query = "SELECT * FROM Transaction WHERE AcctNo = ?";
         PreparedStatement preparedStmt = con.prepareStatement(query);
+        preparedStmt.setInt(1,Globals.ctmr.acctNo);
         ResultSet rs = preparedStmt.executeQuery();
         while(rs.next()){
             acctNo = rs.getInt(1);
@@ -61,7 +84,35 @@ class ReadData{
         ctmr.transctNum = transID+1;
         }
         catch(Exception e){
+            System.out.println(e);
             //have to put some exception handler like log in a file
         }
+    }
+
+    public static void storeUser(){
+        try{
+            int acctNo,balance,custID;
+            String name,password;
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/appBank", "sample", "sample");
+            String query = "SELECT * FROM Customer WHERE CustID = ?";
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1,Globals.custID++);
+
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            custID = rs.getInt(1);
+            acctNo = rs.getInt(2);
+            name = rs.getString(3);
+            password = rs.getString(4);
+            balance = rs.getInt(5);
+
+            Customer ctmr = new Customer(custID,name,acctNo,balance,password);
+
+            Globals.ctmr = ctmr;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        
     }
 }

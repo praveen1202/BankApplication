@@ -12,7 +12,7 @@ import java.io.*;
 
 public class ViewBalance extends HttpServlet{	//request for viewing balance
 	@Override
-	public void service(HttpServletRequest req,HttpServletResponse res) throws IOException,ServletException {
+	public void doGet(HttpServletRequest req,HttpServletResponse res) throws IOException,ServletException {
 
 		PrintWriter out = res.getWriter();
 

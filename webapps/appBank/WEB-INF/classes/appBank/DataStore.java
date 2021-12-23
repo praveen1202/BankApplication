@@ -32,4 +32,24 @@ public class DataStore{
       		System.err.println(e.getMessage());
 		}
 	}
+
+    public static void createUser(String name,String password){
+
+        try{
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/appBank", "sample", "sample");
+
+            String query = "INSERT INTO Customer (CustID,Name,Epassword,Balance) VALUES (?,?,?,100)";
+            PreparedStatement stmt = con.prepareStatement(query);
+
+            stmt.setInt(1,Globals.custID);
+            stmt.setString(2,name);
+            stmt.setString(3,password);
+            stmt.execute();
+
+        }catch(Exception e){
+            System.out.println(e);
+        }
+    }
 }
