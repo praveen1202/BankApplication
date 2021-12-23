@@ -15,8 +15,8 @@
 		}
 	%>
 	<button id="viewtransaction">View Transaction History</button>
-	<div class="balance"></div>
 	<button id="viewbalance">View Balance</button>
+	<div class="balance"></div>
 	<a href="features.jsp"><button>Features</button></a>
 	<form action = "logout" method = "POST">
 		<input type="submit" value="Log out">
