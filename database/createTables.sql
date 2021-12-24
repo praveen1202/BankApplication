@@ -4,7 +4,7 @@ USE appBank;
 
 CREATE TABLE Customer(CustID INT UNIQUE,AcctNo INT AUTO_INCREMENT,Name VARCHAR(100),Epassword VARCHAR(100),PRIMARY KEY(AcctNo));
 
-CREATE TABLE Transaction(AcctNo INT,TransID INT,TransType VARCHAR(100),Amount INT,PRIMARY KEY(AcctNo),FOREIGN KEY(AcctNo) REFERENCES Customer(AcctNo));
+CREATE TABLE Transaction(AcctNo INT,TransID INT,TransType VARCHAR(100),Amount INT,PRIMARY KEY(AcctNo,TransID),FOREIGN KEY(AcctNo) REFERENCES Customer(AcctNo));
 
 
 
