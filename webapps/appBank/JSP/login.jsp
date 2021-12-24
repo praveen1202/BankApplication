@@ -14,5 +14,6 @@
         Enter Password : <input type="text" name="password"><br>
         <input type="submit" value="Log In">
     </form>
+    <a href="signup.jsp"><button>Sign Up</button></a>
 </body>
 </html>

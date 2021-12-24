@@ -37,7 +37,13 @@
 	</div>
 
 	<button id="neft">Net Banking</button><br>
-	<div id="neftDiv">Bye</div>
+	<div id="neftDiv">
+		<form action="neft" method="POST">
+			Enter Recipient Account Number : <input type="text" name="acctNo">
+			Enter Amount to be Transferred :<input type="text" name="amt">
+			<input type="submit" value="Transact">
+		</form>
+	</div>
 
 	<a href="transaction.jsp"><button>View Transaction History</button></a>
 	<form action = "logout" method = "POST">
