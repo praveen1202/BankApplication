@@ -36,6 +36,31 @@ class ReadData{
         }
 	}
 
+    public static boolean searchUser(int acctNo){
+        try{
+            int custID,balance;
+            String name;
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/appBank", "sample", "sample");
+            String query = "SELECT * FROM Customer WHERE AcctNo = ?";
+            PreparedStatement stmt = con.prepareStatement(query);
+
+            stmt.setInt(1,acctNo);
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            custID = rs.getInt(1);
+            name = rs.getString(3);
+            balance = rs.getInt(5);
+
+            Customer recipient = new Customer(custID,acctNo,name,balance);
+            Globals.recipient = recipient;
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
+
     public static void searchUser(){        //for increasing the custID so that it remains unique
         try{
             int custID = 0;
@@ -88,6 +113,31 @@ class ReadData{
             //have to put some exception handler like log in a file
         }
     }
+
+    public static void readTransact(Customer recipient){      //gets the maximum of transID for recipient
+        try{
+            int transID;
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/appBank", "sample", "sample");
+            String query = "SELECT MAX(TransID) FROM Transaction WHERE AcctNo = ?";
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+
+            preparedStmt.setInt(1,recipient.acctNo);
+
+            ResultSet rs = preparedStmt.executeQuery();
+            if(rs.next()){
+                recipient.transctNum = rs.getInt(1);
+                recipient.transctNum++;
+                Globals.recipient = recipient;
+
+            }
+        } 
+        catch(Exception e){
+        //
+        }
+    }
+
+
 
     public static void storeUser(){
         try{

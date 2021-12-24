@@ -21,5 +21,10 @@ public class Customer{
 		this.transctNum = 1;
 	}
 
-
+	Customer(int custID,int acctNo,String name, int balance){
+		this.acctNo = acctNo;
+		this.balance = balance;
+		this.name = name;
+		this.custID = custID;
+	}
 }

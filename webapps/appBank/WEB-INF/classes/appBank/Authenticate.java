@@ -19,13 +19,14 @@ public class Authenticate extends HttpServlet{      //request comes from login.j
 
         int custID = Integer.parseInt(req.getParameter("custID").toString());       
         String password = req.getParameter("password").toString();
-        PrintWriter out = res.getWriter();
+        // PrintWriter out = res.getWriter();
         
 
         if(ReadData.searchUser(custID,password)){       //passes the credentials to readData.java
             ReadData.readTransact();        //read and stores transactionDetails
             HttpSession session = req.getSession();
             session.setAttribute("name",Globals.ctmr.name);
+            session.setAttribute("custID",Globals.ctmr.custID);
             res.sendRedirect("features.jsp");       //redirects to features.jsp
         }
         else {

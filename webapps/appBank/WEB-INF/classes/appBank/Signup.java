@@ -28,6 +28,7 @@ public class Signup extends HttpServlet{      //request comes from login.jsp
             ReadData.storeUser();   //stores customer locally in Globals class
             HttpSession session = req.getSession();
             session.setAttribute("name",Globals.ctmr.name);
+            session.setAttribute("custID",Globals.ctmr.custID);
             res.sendRedirect("features.jsp"); 
         }
         else {
