@@ -17,8 +17,10 @@ public class Deposit extends HttpServlet{		//requests comes from features.jsp,sa
 		Customer ctmr = Globals.ctmr;
 
 		int amt = Integer.parseInt(req.getParameter("amt"));
-		if(amt > 0){
-			ctmr.balance += amt;
+
+		if(Account.creditAmt(ctmr,amt))
+		{
+			// ctmr.balance += amt;
 			StoreTransaction.store(ctmr,"Deposit",amt);
 			res.sendRedirect("transaction.jsp");
 		}

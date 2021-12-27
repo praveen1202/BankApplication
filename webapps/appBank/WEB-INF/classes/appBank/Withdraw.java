@@ -10,7 +10,7 @@ import java.io.*;
 
 public class Withdraw extends HttpServlet{			//request comes from features.jsp
 	@Override
-	public void service(HttpServletRequest req,HttpServletResponse res) throws IOException,ServletException {
+	public void doPost(HttpServletRequest req,HttpServletResponse res) throws IOException,ServletException {
 
 		PrintWriter out = res.getWriter();
 		// HttpSession session = req.getSession();
@@ -19,11 +19,12 @@ public class Withdraw extends HttpServlet{			//request comes from features.jsp
 		int amt = Integer.parseInt(req.getParameter("amt"));
 		
 
-		if(ctmr.balance - amt >= 1000 && amt > 0){
-			ctmr.balance -= amt;
-			out.println("Success");
-			out.println("Current Balance:" + ctmr.balance);
+		if(Account.debitAmt(ctmr,amt)){
+			// ctmr.balance -= amt;
+			// out.println("Success");
+			// out.println("Current Balance:" + ctmr.balance);
 			StoreTransaction.store(ctmr,"WithDrawal",amt);			//stores the transaction in local arraylist of customer
+			res.sendRedirect("transaction.jsp");
 			}
 		else{
 			out.println("Invalid Entry/Low Balance");

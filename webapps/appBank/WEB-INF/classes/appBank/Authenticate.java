@@ -14,7 +14,7 @@ public class Authenticate extends HttpServlet{      //request comes from login.j
     
 
     @Override
-    public void service(HttpServletRequest req,HttpServletResponse res) throws IOException,ServletException{
+    public void doPost(HttpServletRequest req,HttpServletResponse res) throws IOException,ServletException{
 
 
         int custID = Integer.parseInt(req.getParameter("custID").toString());       
@@ -27,6 +27,9 @@ public class Authenticate extends HttpServlet{      //request comes from login.j
             HttpSession session = req.getSession();
             session.setAttribute("name",Globals.ctmr.name);
             session.setAttribute("custID",Globals.ctmr.custID);
+            // String id = .getSession().getId();
+            // out.println(id);
+            // req.getRequestDispatcher("features.jsp").include(req,res);
             res.sendRedirect("features.jsp");       //redirects to features.jsp
         }
         else {
