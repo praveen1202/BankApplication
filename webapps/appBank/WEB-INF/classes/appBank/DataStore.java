@@ -33,7 +33,7 @@ public class DataStore{
 		}
 	}
 
-    public static void createUser(String name,String password){
+    public static void createUser(int custID,String name,String password){
 
         try{
 
@@ -43,7 +43,7 @@ public class DataStore{
             String query = "INSERT INTO Customer (CustID,Name,Epassword,Balance) VALUES (?,?,?,100)";
             PreparedStatement stmt = con.prepareStatement(query);
 
-            stmt.setInt(1,Globals.custID);
+            stmt.setInt(1,custID);
             stmt.setString(2,name);
             stmt.setString(3,password);
             stmt.execute();

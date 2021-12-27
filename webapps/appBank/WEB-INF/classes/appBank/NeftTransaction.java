@@ -14,31 +14,57 @@ public class NeftTransaction extends HttpServlet{      //request comes from logi
     
 
     @Override
-    public void service(HttpServletRequest req,HttpServletResponse res) throws IOException,ServletException{
+    public void doPost(HttpServletRequest req,HttpServletResponse res) throws IOException,ServletException{
 
+
+        HttpSession session = req.getSession();
+        String sessionID = req.getSession().getId();
+        Customer ctmr = Globals.cstmrList.get(sessionID);
 
         int acctNo = Integer.parseInt(req.getParameter("acctNo"));
         int amt = Integer.parseInt(req.getParameter("amt"));
 
         PrintWriter out = res.getWriter();
 
-        if(ReadData.searchUser(acctNo)){
-            ReadData.readTransact(Globals.recipient);
+        Customer recipient = ReadData.searchUser(acctNo);
 
-            if(Account.debitAmt(Globals.ctmr,amt)){
-                Account.creditAmt(Globals.recipient,amt);
+        if (recipient != null){
+            ReadData.getTransID(recipient);
+            if(Account.debitAmt(ctmr,amt)){
+                Account.creditAmt(recipient,amt);
+                StoreTransaction.store(ctmr,"Transfer to " + recipient.acctNo,amt);
 
-                StoreTransaction.store(Globals.ctmr,"Transfer to " + Globals.recipient.acctNo,amt);
-
-                StoreTransaction.store(Globals.recipient,
-                    "Transfer From " + Globals.ctmr.acctNo,amt);
-                res.sendRedirect("features.jsp");
+                StoreTransaction.store(recipient,
+                    "Transfer From " + ctmr.acctNo,amt);
+                res.sendRedirect("transaction.jsp");
             }
             else{
                 out.write("Low Account Balance/Invalid Amount Entered");
             }
-
         }
+        else{
+            //what happens if recipient AcctNo is not found in database?
+        }   
+
+
+
+        // if(ReadData.searchUser(acctNo)){
+        //     ReadData.readTransact(Globals.recipient);
+
+        //     if(Account.debitAmt(Globals.ctmr,amt)){
+        //         Account.creditAmt(Globals.recipient,amt);
+
+        //         StoreTransaction.store(Globals.ctmr,"Transfer to " + Globals.recipient.acctNo,amt);
+
+        //         StoreTransaction.store(Globals.recipient,
+        //             "Transfer From " + Globals.ctmr.acctNo,amt);
+        //         res.sendRedirect("transaction.jsp");
+        //     }
+        //     else{
+        //         out.write("Low Account Balance/Invalid Amount Entered");
+        //     }
+
+        // }
         
         
 

@@ -13,8 +13,10 @@ public class Logout extends HttpServlet{		//logs out the session and invalidate 
 	public void service(HttpServletRequest req,HttpServletResponse res) throws IOException,ServletException {
 		HttpSession session = req.getSession();
 		session.removeAttribute("name");
+		session.removeAttribute("custID");
+		Globals.cstmrList.remove(req.getSession().getId());
 		session.invalidate();
-		Globals.ctmr = new Customer();
+
 		res.sendRedirect("login.jsp");
 
 	}

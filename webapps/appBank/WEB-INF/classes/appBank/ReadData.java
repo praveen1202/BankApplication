@@ -3,7 +3,7 @@ package appBank;
 import java.sql.*;
 
 class ReadData{
-	public static boolean searchUser(int custID,String password){  //searches user on database 
+	public static Customer searchUser(int custID,String password){  //searches user on database 
 		try{
             int acctNo,balance;
             String name;
@@ -25,18 +25,18 @@ class ReadData{
             
 
             Customer ctmr = new Customer(custID,name,acctNo,balance,password);
-            Globals.ctmr = ctmr;
+            // Globals.ctmr = ctmr;
 
 
-            return true;
+            return ctmr;
             
         }
         catch(Exception ex){
-        	return false;
+        	return new Customer();
         }
 	}
 
-    public static boolean searchUser(int acctNo){
+    public static Customer searchUser(int acctNo){
         try{
             int custID,balance;
             String name;
@@ -53,15 +53,15 @@ class ReadData{
             balance = rs.getInt(5);
 
             Customer recipient = new Customer(custID,acctNo,name,balance);
-            Globals.recipient = recipient;
-            return true;
+            // Globals.recipient = recipient;
+            return recipient;
         }
         catch(Exception e){
-            return false;
+            return new Customer();
         }
     }
 
-    public static void searchUser(){        //for increasing the custID so that it remains unique
+    public static int searchUser(){        //for increasing the custID so that it remains unique
         try{
             int custID = 0;
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -76,25 +76,26 @@ class ReadData{
             while(rs.next()){          //cursor is placed before the word,
                 custID = rs.getInt(1);
             }
-            Globals.custID = custID + 1;
+            return custID++;
         }  catch(Exception e){
-            System.out.println(e);
+            return 1;
+            // System.out.println(e);
         }
     }
 
 
-    public static void readTransact(){      //reads transaction from database and stores in customer.transactDetails
+    public static void readTransact(Customer ctmr){      //reads transaction from database and stores in customer.transactDetails
         try{
 
         int acctNo,amt,balance;
         String transType;
         int transID = 1;
-        Customer ctmr = Globals.ctmr;
+        // Customer ctmr = Globals.ctmr;
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/appBank", "sample", "sample");
         String query = "SELECT * FROM Transaction WHERE AcctNo = ?";
         PreparedStatement preparedStmt = con.prepareStatement(query);
-        preparedStmt.setInt(1,Globals.ctmr.acctNo);
+        preparedStmt.setInt(1,ctmr.acctNo);
         ResultSet rs = preparedStmt.executeQuery();
         while(rs.next()){
             acctNo = rs.getInt(1);
@@ -114,7 +115,7 @@ class ReadData{
         }
     }
 
-    public static void readTransact(Customer recipient){      //gets the maximum of transID for recipient
+    public static void getTransID(Customer recipient){      //gets the maximum of transID for recipient
         try{
             int transID;
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -128,7 +129,7 @@ class ReadData{
             if(rs.next()){
                 recipient.transctNum = rs.getInt(1);
                 recipient.transctNum++;
-                Globals.recipient = recipient;
+                // Globals.recipient = recipient;
 
             }
         } 
@@ -139,15 +140,15 @@ class ReadData{
 
 
 
-    public static void storeUser(){
+    public static Customer storeUser(int custID){
         try{
-            int acctNo,balance,custID;
+            int acctNo,balance;
             String name,password;
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/appBank", "sample", "sample");
             String query = "SELECT * FROM Customer WHERE CustID = ?";
             PreparedStatement stmt = con.prepareStatement(query);
-            stmt.setInt(1,Globals.custID++);
+            stmt.setInt(1,custID++);
 
             ResultSet rs = stmt.executeQuery();
             rs.next();
@@ -159,9 +160,11 @@ class ReadData{
 
             Customer ctmr = new Customer(custID,name,acctNo,balance,password);
 
-            Globals.ctmr = ctmr;
+            return ctmr;
+
         } catch (Exception e) {
-            System.out.println(e);
+            return new Customer();
+            // System.out.println(e);
         }
         
     }

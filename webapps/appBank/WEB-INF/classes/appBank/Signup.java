@@ -16,6 +16,9 @@ public class Signup extends HttpServlet{      //request comes from login.jsp
     @Override
     public void doPost(HttpServletRequest req,HttpServletResponse res) throws IOException,ServletException{
 
+        HttpSession session = req.getSession();
+        String sessionID = req.getSession().getId();
+
         String name = req.getParameter("name");
         String password1 = req.getParameter("password1");
         String password2 = req.getParameter("password2");
@@ -23,16 +26,19 @@ public class Signup extends HttpServlet{      //request comes from login.jsp
         PrintWriter out = res.getWriter();
 
         if(password2.equals(password1)){
-            ReadData.searchUser();      //appends custID so that it becomes unique
-            DataStore.createUser(name,password1);   //creates user and stores it in database
-            ReadData.storeUser();   //stores customer locally in Globals class
-            HttpSession session = req.getSession();
-            session.setAttribute("name",Globals.ctmr.name);
-            session.setAttribute("custID",Globals.ctmr.custID);
+            int custID = ReadData.searchUser();      //appends custID so that it becomes unique
+            DataStore.createUser(custID,name,password1);   //creates user and stores it in database
+            //stores customer locally in Globals class
+
+            Customer ctmr = ReadData.storeUser(custID);   
+            Globals.cstmrList.put(sessionID,ctmr);
+            session.setAttribute("name",ctmr.name);
+            session.setAttribute("custID",ctmr.custID);
             res.sendRedirect("features.jsp"); 
         }
         else {
-            out.println("Password Incorrect");
+            out.println("Passwords Doesn't Match");
+            res.sendRedirect("signup.jsp");          //have to find a way to display inside signup.jsp
         }
     }
 }

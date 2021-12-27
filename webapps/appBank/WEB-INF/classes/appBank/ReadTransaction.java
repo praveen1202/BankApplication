@@ -10,12 +10,15 @@ import java.io.*;
 
 public class ReadTransaction extends HttpServlet{		//response the request by plain text(by PrinterWriter)
 	@Override
-	public void service(HttpServletRequest req,HttpServletResponse res) throws IOException,ServletException {
+	public void doGet(HttpServletRequest req,HttpServletResponse res) throws IOException,ServletException {
 
 		PrintWriter out = res.getWriter();
 
+		HttpSession session = req.getSession();
+		String sessionID = req.getSession().getId();
+		Customer ctmr = Globals.cstmrList.get(sessionID);
 
-		for(Transaction iter : Globals.ctmr.transactDetails){
+		for(Transaction iter : ctmr.transactDetails){
 			out.write(iter.transID + "," + iter.transType +","+ iter.amt + "," + iter.balance+"\n"); 
 		}
 		res.setContentType("text/plain");

@@ -8,7 +8,7 @@ public class Customer{
 	String name,password;
 	List<Transaction> transactDetails = new ArrayList<>(); 							//transaction details
 
-	Customer () {						//to set Globals.ctmr into null
+	Customer () {						//to set ctmr into null
 
 	}
 
