@@ -19,32 +19,48 @@ public class Signup extends HttpServlet{      //request comes from login.jsp
         HttpSession session = req.getSession();
         String sessionID = req.getSession().getId();
 
-        int custID;
-
-        String name = req.getParameter("name");
-        String password1 = req.getParameter("password1");
-        String password2 = req.getParameter("password2");
-
         PrintWriter out = res.getWriter();
+        int custID;
+        String name,password1,password2;
+        Customer ctmr;
 
-        if(password2.equals(password1)){
-            custID = ReadData.searchUser();      //appends custID so that it becomes unique
-            DataStore.createUser(custID,name,password1);   //creates user and stores it in database
+        try {
+            name = req.getParameter("name");
+            password1 = req.getParameter("password1");
+            password2 = req.getParameter("password2");
 
-            Customer ctmr = ReadData.storeUser(custID);
+            if(name.equals("") || password1.equals("") || password2.equals("")){                    //have to throw exception for blankspaces 
+                throw new Exception();
+            }
 
-            DataStore.writeTransaction(ctmr.acctNo);    //writes opening balance into transaction database
+            if(password2.equals(password1)){
 
-            ReadData.readTransact(ctmr);
+                custID = ReadData.searchUser();      //appends custID so that it becomes unique
 
-            Globals.cstmrList.put(sessionID,ctmr);
-            session.setAttribute("name",ctmr.name);
-            session.setAttribute("custID",ctmr.custID);
-            res.sendRedirect("features.jsp"); 
+                DataStore.createUser(custID,name,password1);   //creates user and stores it in database and thorws exception if the name and password is null
+
+                ctmr = ReadData.storeUser(custID); 
+
+                if(ctmr != null){
+                    DataStore.writeTransaction(ctmr.acctNo);    //writes opening balance into transaction database
+
+                    ReadData.readTransact(ctmr);
+
+                    Globals.cstmrList.put(sessionID,ctmr);
+                    session.setAttribute("name",ctmr.name);
+                    session.setAttribute("custID",ctmr.custID);
+                    res.sendRedirect("features.jsp"); 
+                }
+                
+            }
+            else {
+                req.setAttribute("message","Passwords Doesn't Match");
+                req.getRequestDispatcher("signup.jsp").forward(req,res);
+            }
         }
-        else {
-            out.println("Passwords Doesn't Match");
-            res.sendRedirect("signup.jsp");          //have to find a way to display inside signup.jsp
+        catch(Exception e) {
+            req.setAttribute("message","Invalid Entry! Try Again!");
+            req.getRequestDispatcher("signup.jsp").forward(req,res);
         }
     }
 }
