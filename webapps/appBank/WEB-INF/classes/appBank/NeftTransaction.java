@@ -45,28 +45,5 @@ public class NeftTransaction extends HttpServlet{      //request comes from logi
         else{
             //what happens if recipient AcctNo is not found in database?
         }   
-
-
-
-        // if(ReadData.searchUser(acctNo)){
-        //     ReadData.readTransact(Globals.recipient);
-
-        //     if(Account.debitAmt(Globals.ctmr,amt)){
-        //         Account.creditAmt(Globals.recipient,amt);
-
-        //         StoreTransaction.store(Globals.ctmr,"Transfer to " + Globals.recipient.acctNo,amt);
-
-        //         StoreTransaction.store(Globals.recipient,
-        //             "Transfer From " + Globals.ctmr.acctNo,amt);
-        //         res.sendRedirect("transaction.jsp");
-        //     }
-        //     else{
-        //         out.write("Low Account Balance/Invalid Amount Entered");
-        //     }
-
-        // }
-        
-        
-
     }
 }

@@ -11,10 +11,10 @@ public class DataStore{
 
             String query = "INSERT INTO Transaction(AcctNo,Amount,TransID,TransType,Balance)" + "VALUES (?,?,?,?,?)";
             PreparedStatement preparedStmt = con.prepareStatement(query);
-            // String query2 = "INSERT INTO "
+
             preparedStmt.setInt(1,transactionDetails.acctNo);
             preparedStmt.setInt(2,transactionDetails.amt);
-            preparedStmt.setInt(3,transactionDetails.transID);		//need to change the transact Num value --temporarily set to global
+            preparedStmt.setInt(3,transactionDetails.transID);		
             preparedStmt.setString(4,transactionDetails.transType);
             preparedStmt.setInt(5,transactionDetails.balance);
 

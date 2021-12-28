@@ -25,14 +25,12 @@ class ReadData{
             
 
             Customer ctmr = new Customer(custID,name,acctNo,balance,password);
-            // Globals.ctmr = ctmr;
-
 
             return ctmr;
             
         }
         catch(Exception ex){
-        	return new Customer();
+        	return null;
         }
 	}
 

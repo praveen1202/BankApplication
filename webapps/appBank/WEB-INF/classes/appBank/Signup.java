@@ -28,7 +28,6 @@ public class Signup extends HttpServlet{      //request comes from login.jsp
         if(password2.equals(password1)){
             int custID = ReadData.searchUser();      //appends custID so that it becomes unique
             DataStore.createUser(custID,name,password1);   //creates user and stores it in database
-            //stores customer locally in Globals class
 
             Customer ctmr = ReadData.storeUser(custID);   
             Globals.cstmrList.put(sessionID,ctmr);

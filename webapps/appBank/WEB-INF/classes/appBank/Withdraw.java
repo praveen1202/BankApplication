@@ -18,16 +18,10 @@ public class Withdraw extends HttpServlet{			//request comes from features.jsp
 
 		PrintWriter out = res.getWriter();
 
-		// HttpSession session = req.getSession();
-		// Customer ctmr = Globals.ctmr;
-
 		int amt = Integer.parseInt(req.getParameter("amt"));
 		
 
 		if(Account.debitAmt(ctmr,amt)){
-			// ctmr.balance -= amt;
-			// out.write("Success");
-			// out.write("Current Balance:" + ctmr.balance);
 			StoreTransaction.store(ctmr,"WithDrawal",amt);			//stores the transaction in local arraylist of customer
 			res.sendRedirect("transaction.jsp");
 			}
