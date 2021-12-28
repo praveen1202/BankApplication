@@ -11,6 +11,7 @@ public class Logout extends HttpServlet{		//logs out the session and invalidate 
 
 	@Override
 	public void service(HttpServletRequest req,HttpServletResponse res) throws IOException,ServletException {
+
 		HttpSession session = req.getSession();
 		session.removeAttribute("name");
 		session.removeAttribute("custID");
@@ -18,6 +19,6 @@ public class Logout extends HttpServlet{		//logs out the session and invalidate 
 		session.invalidate();
 
 		res.sendRedirect("login.jsp");
-
 	}
+	
 }

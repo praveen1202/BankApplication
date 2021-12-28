@@ -12,14 +12,12 @@ import java.util.*;
 
 public class Signup extends HttpServlet{      //request comes from login.jsp
     
-
     @Override
     public void doPost(HttpServletRequest req,HttpServletResponse res) throws IOException,ServletException{
 
         HttpSession session = req.getSession();
         String sessionID = req.getSession().getId();
 
-        PrintWriter out = res.getWriter();
         int custID;
         String name,password1,password2;
         Customer ctmr;
@@ -42,11 +40,13 @@ public class Signup extends HttpServlet{      //request comes from login.jsp
                 ctmr = ReadData.storeUser(custID); 
 
                 if(ctmr != null){
+                    
                     DataStore.writeTransaction(ctmr.acctNo);    //writes opening balance into transaction database
 
                     ReadData.readTransact(ctmr);
 
                     Globals.cstmrList.put(sessionID,ctmr);
+
                     session.setAttribute("name",ctmr.name);
                     session.setAttribute("custID",ctmr.custID);
                     res.sendRedirect("features.jsp"); 
@@ -63,4 +63,5 @@ public class Signup extends HttpServlet{      //request comes from login.jsp
             req.getRequestDispatcher("signup.jsp").forward(req,res);
         }
     }
+
 }

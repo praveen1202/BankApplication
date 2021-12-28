@@ -2,7 +2,9 @@ package appBank;
 
 import java.sql.*;
 public class DataStore{ 
+
 	public static void writeTransaction(Transaction transactionDetails) throws Exception{   //writes transaction into the database
+
 		try{
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -22,18 +24,20 @@ public class DataStore{
 
             String query2 = "UPDATE Customer SET Balance = ? WHERE AcctNo = ?";
             PreparedStatement preparedStmt2 = con.prepareStatement(query2);
+
             preparedStmt2.setInt(1,transactionDetails.balance);
             preparedStmt2.setInt(2,transactionDetails.acctNo);
 
             preparedStmt2.execute();
             
-		}catch(ClassNotFoundException | SQLException e){
-
+		}
+        catch(ClassNotFoundException | SQLException e){
 			throw new Exception(); //throws error if user not found in database
 		}
 	}
 
     public static void writeTransaction(int acctNo) throws Exception{
+
         try{
 
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -53,6 +57,7 @@ public class DataStore{
 
             String query2 = "UPDATE Customer SET Balance = ? WHERE AcctNo = ?";
             PreparedStatement preparedStmt2 = con.prepareStatement(query2);
+
             preparedStmt2.setInt(1,10000);
             preparedStmt2.setInt(2,acctNo);
 
@@ -60,7 +65,6 @@ public class DataStore{
             
         } 
         catch(ClassNotFoundException | SQLException e){
-
             throw new Exception(); //throws error if user not found in database
         }
     }
@@ -78,6 +82,7 @@ public class DataStore{
             stmt.setInt(1,custID);
             stmt.setString(2,name);
             stmt.setString(3,password);
+
             stmt.execute();
 
         }
@@ -85,4 +90,5 @@ public class DataStore{
             throw new Exception();
         }
     }
+    
 }

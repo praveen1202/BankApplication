@@ -12,38 +12,48 @@ import java.util.*;
 
 public class NeftTransaction extends HttpServlet{      //request comes from login.jsp
     
-
     @Override
     public void doPost(HttpServletRequest req,HttpServletResponse res) throws IOException,ServletException{
 
-
         HttpSession session = req.getSession();
         String sessionID = req.getSession().getId();
+        
         Customer ctmr = Globals.cstmrList.get(sessionID);
+        int acctNo,amt;
 
-        int acctNo = Integer.parseInt(req.getParameter("acctNo"));
-        int amt = Integer.parseInt(req.getParameter("amt"));
+        try{
+            acctNo = Integer.parseInt(req.getParameter("acctNo"));
+            amt = Integer.parseInt(req.getParameter("amt"));
 
-        PrintWriter out = res.getWriter();
+            try {
+                Customer recipient = ReadData.searchUser(acctNo);
+                
+                ReadData.getTransID(recipient);
 
-        Customer recipient = ReadData.searchUser(acctNo);
+                if(Account.debitAmt(ctmr,amt)){
 
-        if (recipient != null){
-            ReadData.getTransID(recipient);
-            if(Account.debitAmt(ctmr,amt)){
-                Account.creditAmt(recipient,amt);
-                StoreTransaction.store(ctmr,"Transfer to " + recipient.acctNo,amt);
+                    Account.creditAmt(recipient,amt);
+                    
+                    StoreTransaction.store(ctmr,"Transfer to " + recipient.acctNo,amt);
 
-                StoreTransaction.store(recipient,
-                    "Transfer From " + ctmr.acctNo,amt);
-                res.sendRedirect("transaction.jsp");
+                    StoreTransaction.store(recipient,"Transfer From " + ctmr.acctNo,amt);
+
+                    res.sendRedirect("transaction.jsp");
+                }
+                else{
+                    req.setAttribute("neftMessage","Invalid Entry");
+                    req.getRequestDispatcher("features.jsp").forward(req,res);
+                }
             }
-            else{
-                out.write("Low Account Balance/Invalid Amount Entered");
+            catch(Exception e){
+                req.setAttribute("neftMessage","The user ID " + acctNo + "doesn't exist!");
+                req.getRequestDispatcher("features.jsp").forward(req,res);
             }
         }
-        else{
-            //what happens if recipient AcctNo is not found in database?
-        }   
+        catch(Exception e){
+            req.setAttribute("neftMessage","Invalid Entry");
+            req.getRequestDispatcher("features.jsp").forward(req,res);
+        }
     }
+
 }

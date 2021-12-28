@@ -13,19 +13,20 @@ public class Deposit extends HttpServlet{		//requests comes from features.jsp,sa
 	@Override
 	public void doPost(HttpServletRequest req,HttpServletResponse res) throws IOException,ServletException {
 
-		PrintWriter out = res.getWriter();
-
 		HttpSession session = req.getSession();
 		String sessionID = req.getSession().getId();
+		
 		Customer ctmr = Globals.cstmrList.get(sessionID);
+		int amt;
 
 		try{
-			
-			int amt = Integer.parseInt(req.getParameter("amt"));
+
+			amt = Integer.parseInt(req.getParameter("amt"));
 
 			if(Account.creditAmt(ctmr,amt)){
 				try{
 					StoreTransaction.store(ctmr,"Deposit",amt);			//stores the transaction in local arraylist of customer
+					
 					res.sendRedirect("transaction.jsp");
 				}
 				catch(Exception e){
@@ -42,4 +43,5 @@ public class Deposit extends HttpServlet{		//requests comes from features.jsp,sa
 			req.getRequestDispatcher("features.jsp").forward(req,res);
 		}	
 	}
+
 }

@@ -23,6 +23,7 @@ public class ViewBalance extends HttpServlet{	//request for viewing balance
 
 		JSONObject object = new JSONObject();
 		object.put("Balance",ctmr.balance);
+		
 		out.write(object.toString());
 
 	}

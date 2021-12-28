@@ -10,10 +10,8 @@ public class Account{
 			ctmr.balance -= amt;
 		}
 		else{
-			// System.out.println("Invalid Entry/Low Balance");
 			return false;
 		}
-
 		return true;
 	}
 
@@ -23,10 +21,9 @@ public class Account{
 			ctmr.balance += amt;
 		}
 		else{
-			// System.out.println("Invalid Amount Entered!");
 			return false;
 		}
-
 		return true;
 	}
+	
 }
