@@ -2,7 +2,7 @@ package appBank;
 
 import java.sql.*;
 public class DataStore{ 
-	public static void writeTransaction(Transaction transactionDetails){   //writes transaction into the database
+	public static void writeTransaction(Transaction transactionDetails) throws Exception{   //writes transaction into the database
 		try{
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -28,8 +28,8 @@ public class DataStore{
             preparedStmt2.execute();
             
 		}catch(ClassNotFoundException | SQLException e){
-			System.err.println("Got an exception!");
-      		System.err.println(e.getMessage());
+
+			throw new Exception(); //throws error if user not found in database
 		}
 	}
 
