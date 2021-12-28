@@ -9,9 +9,15 @@
     <title>Login</title>
 </head>
 <body>
+    <%
+        if(session.getAttribute("name") != null){
+            response.sendRedirect("features.jsp");
+        }
+    %>
     <form action="auth" method="POST">
         Enter UserID : <input type="text" name="custID"><br>
         Enter Password : <input type="text" name="password"><br>
+        <span>${message}</span><br>
         <input type="submit" value="Log In">
     </form>
     <a href="signup.jsp"><button>Sign Up</button></a>
