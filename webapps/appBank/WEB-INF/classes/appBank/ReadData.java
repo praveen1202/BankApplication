@@ -74,22 +74,20 @@ class ReadData{
             if(rs.next()){          //cursor is placed before the word,
                 custID = rs.getInt(1);
             }
-            custID++;
-            return custID;
-        }  catch(Exception e){
+            return ++custID;
+        }  
+        catch(Exception e){
             return 1;
-            // System.out.println(e);
         }
     }
 
 
-    public static void readTransact(Customer ctmr){      //reads transaction from database and stores in customer.transactDetails
+    public static void readTransact(Customer ctmr) throws Exception{      //reads transaction from database and stores in customer.transactDetails
         try{
 
         int acctNo,amt,balance;
         String transType;
         int transID = 1;
-        // Customer ctmr = Globals.ctmr;
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/appBank", "sample", "sample");
         String query = "SELECT * FROM Transaction WHERE AcctNo = ?";
@@ -109,8 +107,7 @@ class ReadData{
         ctmr.transctNum = transID+1;
         }
         catch(Exception e){
-            System.out.println(e);
-            //have to put some exception handler like log in a file
+            throw new Exception();
         }
     }
 
@@ -160,9 +157,9 @@ class ReadData{
 
             return ctmr;
 
-        } catch (Exception e) {
-            return new Customer();
+        } 
+        catch (Exception e) {
+            return null;
         }
-        
     }
 }

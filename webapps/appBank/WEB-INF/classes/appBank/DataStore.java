@@ -33,7 +33,7 @@ public class DataStore{
 		}
 	}
 
-    public static void writeTransaction(int acctNo){
+    public static void writeTransaction(int acctNo) throws Exception{
         try{
 
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -58,13 +58,14 @@ public class DataStore{
 
             preparedStmt2.execute();
             
-        }catch(ClassNotFoundException | SQLException e){
+        } 
+        catch(ClassNotFoundException | SQLException e){
 
-            // throw new Exception(); //throws error if user not found in database
+            throw new Exception(); //throws error if user not found in database
         }
     }
 
-    public static void createUser(int custID,String name,String password){
+    public static void createUser(int custID,String name,String password) throws Exception{
 
         try{
 
@@ -79,8 +80,9 @@ public class DataStore{
             stmt.setString(3,password);
             stmt.execute();
 
-        }catch(Exception e){
-            System.out.println(e);
+        }
+        catch(Exception e){
+            throw new Exception();
         }
     }
 }
