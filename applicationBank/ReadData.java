@@ -1,168 +1,138 @@
-package appBank;
+package applicationBank;
 
-import java.sql.*;
+import java.util.*;
 
-class ReadData{
-	public static Customer searchUser(int custID,String password){  //searches user on database 
-		try{
-            int acctNo,balance;
-            String name;
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/appBank", "sample", "sample");
+public class ReadData{
+	Customer ctmr;
 
-
-            String query = "select * from Customer WHERE CustID = ? AND Epassword = ? ";
-
-            PreparedStatement preparedStmt = con.prepareStatement(query);
-
-            preparedStmt.setInt(1,custID);
-            preparedStmt.setString(2,password);
-            ResultSet rs = preparedStmt.executeQuery();
-            rs.next();			//cursor is placed before the word,
-        	acctNo = rs.getInt(2);
-        	name = rs.getString(3);
-            balance = rs.getInt(5);
-            
-
-            Customer ctmr = new Customer(custID,name,acctNo,balance,password);
-
-            return ctmr;
-            
-        }
-        catch(Exception ex){
-        	return null;
-        }
+	ReadData(Customer ctmr){
+		this.ctmr = ctmr;
 	}
 
-    public static Customer searchUser(int acctNo) throws Exception{
-        try{
-            int custID,balance;
-            String name;
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/appBank", "sample", "sample");
-            String query = "SELECT * FROM Customer WHERE AcctNo = ?";
-            PreparedStatement stmt = con.prepareStatement(query);
+	Customer getCustomer(){
+		return this.ctmr;
+	}
 
-            stmt.setInt(1,acctNo);
-            ResultSet rs = stmt.executeQuery();
-            rs.next();
-            custID = rs.getInt(1);
-            name = rs.getString(3);
-            balance = rs.getInt(5);
-
-            Customer recipient = new Customer(custID,acctNo,name,balance);
-            // Globals.recipient = recipient;
-            return recipient;
-        }
-        catch(Exception e){
-            throw new Exception();
-        }
-    }
-
-    public static int searchUser(){        //for increasing the custID so that it remains unique
-        try{
-            int custID = 0;
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/appBank", "sample", "sample");
-
-            String query = "select MAX(CustID) from Customer";
-
-            PreparedStatement preparedStmt = con.prepareStatement(query);
+	
+	public void withDraw(){
 
 
-            ResultSet rs = preparedStmt.executeQuery();
-            if(rs.next()){          //cursor is placed before the word,
-                custID = rs.getInt(1);
-            }
-            custID++;
-            return custID;
-        }  catch(Exception e){
-            return 1;
-            // System.out.println(e);
-        }
-    }
+		Scanner sc = Globals.sc;
+		Customer ctmr = getCustomer();
 
-
-    public static void readTransact(Customer ctmr){      //reads transaction from database and stores in customer.transactDetails
-        try{
-
-        int acctNo,amt,balance;
-        String transType;
-        int transID = 1;
-        // Customer ctmr = Globals.ctmr;
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/appBank", "sample", "sample");
-        String query = "SELECT * FROM Transaction WHERE AcctNo = ?";
-        PreparedStatement preparedStmt = con.prepareStatement(query);
-        preparedStmt.setInt(1,ctmr.acctNo);
-        ResultSet rs = preparedStmt.executeQuery();
-        while(rs.next()){
-            acctNo = rs.getInt(1);
-            transID = rs.getInt(2);
-            transType = rs.getString(3);
-            amt = rs.getInt(4);
-            balance = rs.getInt(5);
-
-            Transaction transaction = new Transaction(acctNo,transID,transType,amt,balance);
-            ctmr.transactDetails.add(transaction);
-        }
-        ctmr.transctNum = transID+1;
-        }
-        catch(Exception e){
-            System.out.println(e);
-            //have to put some exception handler like log in a file
-        }
-    }
-
-    public static void getTransID(Customer recipient) throws Exception{      //gets the maximum of transID for recipient
-        try{
-            int transID;
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/appBank", "sample", "sample");
-            String query = "SELECT MAX(TransID) FROM Transaction WHERE AcctNo = ?";
-            PreparedStatement preparedStmt = con.prepareStatement(query);
-
-            preparedStmt.setInt(1,recipient.acctNo);
-
-            ResultSet rs = preparedStmt.executeQuery();
-            if(rs.next()){
-                recipient.transctNum = rs.getInt(1);
-                recipient.transctNum++;
-
-            }
-        } 
-        catch(Exception e){
-            throw new Exception();
-        }
-    }
+		System.out.println("Enter Amount to Be Debited: ");
+		int amt = sc.nextInt();
 
 
 
-    public static Customer storeUser(int custID){
-        try{
-            int acctNo,balance;
-            String name,password;
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/appBank", "sample", "sample");
-            String query = "SELECT * FROM Customer WHERE CustID = ?";
-            PreparedStatement stmt = con.prepareStatement(query);
-            stmt.setInt(1,custID++);
+		
+		boolean flag = Account.debitAmt(ctmr,amt);
 
-            ResultSet rs = stmt.executeQuery();
-            rs.next();
-            custID = rs.getInt(1);
-            acctNo = rs.getInt(2);
-            name = rs.getString(3);
-            password = rs.getString(4);
-            balance = rs.getInt(5);
+		if(flag) {
+			String transType = "Withdraw";
 
-            Customer ctmr = new Customer(custID,name,acctNo,balance,password);
+			StoreTransaction.store(ctmr,transType,amt);
 
-            return ctmr;
+			if(amt >= 5000){
+				BankCharges.operationalCharges(ctmr);
+			}
+			if(ctmr.transctNum % 10 == 0){
+				BankCharges.maintenenceCharges(ctmr);
+			}
 
-        } catch (Exception e) {
-            return new Customer();
-        }
-        
-    }
+			PrintTransactionDetails printDetails = new PrintTransactionDetails(ctmr);		//prints transaction details
+			printDetails.print();
+		}
+
+	}
+
+	public void deposit(){
+
+		Scanner sc = Globals.sc;
+		Customer ctmr = getCustomer();
+
+		System.out.println("Enter Amount to be Credited: ");
+		int amt = sc.nextInt();
+		
+		boolean flag = Account.creditAmt(ctmr,amt);
+
+		if(flag){
+
+			String transType = "Deposit ";
+
+			StoreTransaction.store(ctmr,transType,amt);
+
+
+			if(amt >= 5000){
+				BankCharges.operationalCharges(ctmr);
+			}
+			if(ctmr.transctNum % 10 == 0){
+				BankCharges.maintenenceCharges(ctmr);
+			}
+
+
+			PrintTransactionDetails printDetails = new PrintTransactionDetails(ctmr);			//prints transaction details
+			printDetails.print();
+		}
+	}
+
+	public void neft(){
+
+		Scanner sc = Globals.sc;
+		Customer ctmr = getCustomer();
+
+		System.out.println("Enter Customer ID of the recipient : ");
+		int recipientID = sc.nextInt();
+
+		if(recipientID != ctmr.custID){
+			boolean check = Globals.checkID(recipientID);
+
+			if(check){																				//checks if Id is registered as user 
+
+				System.out.println("Enter Amount to Be Transfered : ");
+				int amt = sc.nextInt();
+				Customer recipient = Globals.cstmrList.get(recipientID);
+				
+
+				MoneyTransfer neftTransaction = new MoneyTransfer(ctmr,recipient,amt);
+				neftTransaction.transfer();
+
+				String transType = "Transferto" + recipient.acctNo;
+				StoreTransaction.store(ctmr,transType,amt);
+
+				transType = "TransferFrom" + ctmr.acctNo;
+				StoreTransaction.store(recipient,transType,amt);
+				
+
+				
+
+				if(amt >= 5000){
+					BankCharges.operationalCharges(ctmr);
+				}
+
+				if(ctmr.transctNum % 10 == 0){
+					BankCharges.maintenenceCharges(ctmr);
+				}
+
+				if(recipient.transctNum % 10 == 0){
+					BankCharges.maintenenceCharges(recipient);
+				}
+
+
+
+				PrintTransactionDetails printDetails = new PrintTransactionDetails(ctmr);			//prints transaction details
+				printDetails.print();
+
+			}
+			else{
+				System.out.println("Invalid Customer ID!");
+			}
+		}
+		else{
+			System.out.println("Invalid Customer ID!");
+		}
+
+		
+	}
+
 }
