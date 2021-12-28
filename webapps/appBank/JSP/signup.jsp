@@ -9,10 +9,16 @@
     <title>Sign Up</title>
 </head>
 <body>
+    <%
+        if(session.getAttribute("name") != null){
+            response.sendRedirect("features.jsp");
+        }
+    %>
     <form action="signup" method="POST">
         Enter Name : <input type="text" name="name"><br>
         Enter Password : <input type="text" name="password1"><br>
         Re-Enter Password : <input type="text" name="password2"><br>
+        <span>${message}</span><br>
         <input type="submit" value="Sign Up">
     </form>
 </body>
