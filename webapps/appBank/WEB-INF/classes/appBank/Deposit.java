@@ -19,16 +19,27 @@ public class Deposit extends HttpServlet{		//requests comes from features.jsp,sa
 		String sessionID = req.getSession().getId();
 		Customer ctmr = Globals.cstmrList.get(sessionID);
 
+		try{
+			
+			int amt = Integer.parseInt(req.getParameter("amt"));
 
-		int amt = Integer.parseInt(req.getParameter("amt"));
-
-		if(Account.creditAmt(ctmr,amt))
-		{
-			StoreTransaction.store(ctmr,"Deposit",amt);
-			res.sendRedirect("transaction.jsp");
-		}
-		else{
-			out.println("Invalid Amount Entered!");
-		}
+			if(Account.creditAmt(ctmr,amt)){
+				try{
+					StoreTransaction.store(ctmr,"Deposit",amt);			//stores the transaction in local arraylist of customer
+					res.sendRedirect("transaction.jsp");
+				}
+				catch(Exception e){
+					res.sendRedirect("login.jsp");
+				}
+			}
+			else{
+				req.setAttribute("depositMessage","Invalid Entry");
+				req.getRequestDispatcher("features.jsp").forward(req,res);
+			}
+		} 
+		catch(Exception e){
+			req.setAttribute("depositMessage","Please Enter Valid Amount");
+			req.getRequestDispatcher("features.jsp").forward(req,res);
+		}	
 	}
 }
