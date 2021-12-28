@@ -16,18 +16,28 @@ public class Withdraw extends HttpServlet{			//request comes from features.jsp
 		String sessionID = req.getSession().getId();
 		Customer ctmr = Globals.cstmrList.get(sessionID);
 
-		PrintWriter out = res.getWriter();
 
-		int amt = Integer.parseInt(req.getParameter("amt"));
-		
+		try{
+			int amt = Integer.parseInt(req.getParameter("amt"));
 
-		if(Account.debitAmt(ctmr,amt)){
-			StoreTransaction.store(ctmr,"WithDrawal",amt);			//stores the transaction in local arraylist of customer
-			res.sendRedirect("transaction.jsp");
+			if(Account.debitAmt(ctmr,amt)){
+				try{
+					StoreTransaction.store(ctmr,"WithDrawal",amt);			//stores the transaction in local arraylist of customer
+					res.sendRedirect("transaction.jsp");
+				}
+				catch(Exception e){
+					res.sendRedirect("login.jsp");
+				}
+				
 			}
-		else{
-			out.println("Invalid Entry/Low Balance");
-		}
-		
+			else{
+				req.setAttribute("withDrawMessage","Invalid Entry/Low Balance");
+				req.getRequestDispatcher("features.jsp").forward(req,res);
+			}
+		} 
+		catch(Exception e){
+			req.setAttribute("withDrawMessage","Please Enter Valid Amount");
+			req.getRequestDispatcher("features.jsp").forward(req,res);
+		}	
 	}
 }
