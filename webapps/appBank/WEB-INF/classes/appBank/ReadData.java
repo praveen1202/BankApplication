@@ -34,7 +34,7 @@ class ReadData{
         }
 	}
 
-    public static Customer searchUser(int acctNo){
+    public static Customer searchUser(int acctNo) throws Exception{
         try{
             int custID,balance;
             String name;
@@ -55,7 +55,7 @@ class ReadData{
             return recipient;
         }
         catch(Exception e){
-            return new Customer();
+            throw new Exception();
         }
     }
 
@@ -65,16 +65,17 @@ class ReadData{
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/appBank", "sample", "sample");
 
-            String query = "select * from Customer";
+            String query = "select MAX(CustID) from Customer";
 
             PreparedStatement preparedStmt = con.prepareStatement(query);
 
 
             ResultSet rs = preparedStmt.executeQuery();
-            while(rs.next()){          //cursor is placed before the word,
+            if(rs.next()){          //cursor is placed before the word,
                 custID = rs.getInt(1);
             }
-            return custID++;
+            custID++;
+            return custID;
         }  catch(Exception e){
             return 1;
             // System.out.println(e);
@@ -113,7 +114,7 @@ class ReadData{
         }
     }
 
-    public static void getTransID(Customer recipient){      //gets the maximum of transID for recipient
+    public static void getTransID(Customer recipient) throws Exception{      //gets the maximum of transID for recipient
         try{
             int transID;
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -127,12 +128,11 @@ class ReadData{
             if(rs.next()){
                 recipient.transctNum = rs.getInt(1);
                 recipient.transctNum++;
-                // Globals.recipient = recipient;
 
             }
         } 
         catch(Exception e){
-        //
+            throw new Exception();
         }
     }
 
@@ -162,7 +162,6 @@ class ReadData{
 
         } catch (Exception e) {
             return new Customer();
-            // System.out.println(e);
         }
         
     }

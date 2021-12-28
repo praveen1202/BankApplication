@@ -19,6 +19,8 @@ public class Signup extends HttpServlet{      //request comes from login.jsp
         HttpSession session = req.getSession();
         String sessionID = req.getSession().getId();
 
+        int custID;
+
         String name = req.getParameter("name");
         String password1 = req.getParameter("password1");
         String password2 = req.getParameter("password2");
@@ -26,10 +28,15 @@ public class Signup extends HttpServlet{      //request comes from login.jsp
         PrintWriter out = res.getWriter();
 
         if(password2.equals(password1)){
-            int custID = ReadData.searchUser();      //appends custID so that it becomes unique
+            custID = ReadData.searchUser();      //appends custID so that it becomes unique
             DataStore.createUser(custID,name,password1);   //creates user and stores it in database
 
-            Customer ctmr = ReadData.storeUser(custID);   
+            Customer ctmr = ReadData.storeUser(custID);
+
+            DataStore.writeTransaction(ctmr.acctNo);    //writes opening balance into transaction database
+
+            ReadData.readTransact(ctmr);
+
             Globals.cstmrList.put(sessionID,ctmr);
             session.setAttribute("name",ctmr.name);
             session.setAttribute("custID",ctmr.custID);
