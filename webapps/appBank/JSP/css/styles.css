@@ -1,3 +1,64 @@
+													/*login page*/
+.login{				/* have to remodule it */
+	position:  absolute;
+	border: 10px solid rgb(45, 172, 179); 
+	border-radius: 20px;
+	top: 20%;
+	left: 35%;
+	width: 400px;
+  	height: 400px;
+  	padding: 100px;
+
+}
+
+.login h2{
+	text-align: center;
+	background-image: linear-gradient(#5cf0f0,#368d8d);
+    -webkit-background-clip: text;
+    color: transparent; 
+}
+.form-for-login a{
+	font-size: large;
+	font-weight: 700;
+	position: absolute;
+	left: 100px;  			/*100px for padding of parent element */
+	text-decoration: none;
+	text-align: center;
+	background-image: linear-gradient(#5cf0f0,#368d8d);
+	-webkit-background-clip: text;
+    color: transparent;
+    padding-top: 20px;
+}
+.form-for-login label {
+	font-size: large;
+	color: black;
+	display: inline-block;
+	width: 50%;
+}
+
+.login .btn {
+	right: 120px;		/*100px for padding of parent element */
+}
+
+.btn {
+	position: absolute;
+    color: rgb(255, 255, 255);
+    background-image: linear-gradient(#5cf0f0,#368d8d);
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: large;
+}
+
+
+											/*features.jsp*/
+
+
+
+
+
+
+
 #withdrawDiv,#depositDiv,#neftDiv{
 	display: none;
 }
@@ -5,4 +66,8 @@
 table{
 	border: 2px solid;
 	width: 50%;
+}
+
+span{
+	color: red;
 }
