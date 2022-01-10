@@ -8,19 +8,25 @@
 	<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-	<div class="response"></div>
 	<%
 		if(session.getAttribute("name") == null){
 			response.sendRedirect("login.jsp");
 		}
 	%>
-	<button id="viewtransaction">View Transaction History</button>
-	<button id="viewbalance">View Balance</button>
+	<div class="transaction">
+		<h2>Hi, ${name}</h2>
+		<h3>User ID: ${custID}</h3>
+		<hr>
+		<button id="viewtransaction">View Transaction History</button>
+		<button id="viewbalance">View Balance</button>
+		<a href="features.jsp"><button>Features</button></a>
+		<form action = "logout" method = "POST">
+			<input type="submit" value="Log out">
+		</form>
+	</div>
+	<hr>
+	<div class="response"></div>
 	<div class="balance"></div>
-	<a href="features.jsp"><button>Features</button></a>
-	<form action = "logout" method = "POST">
-		<input type="submit" value="Log out">
-	</form>
 	<script type="text/javascript" src="js/transactionReq.js"></script>
 </body>
 </html>

@@ -4,60 +4,58 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<link rel="stylesheet" href="css/styles.css" >
-	<title>Features</title>
-</head>
-<body>
+	<head>
+		<title>Features</title>
+		<link rel="stylesheet" href="css/styles.css">
+	</head>
+	<body>
+		<%
+			if(session.getAttribute("name") == null){
+				response.sendRedirect("login.jsp");
+			}
+		%>
+		<div class="features">
+			<h2>Hi, ${name}</h2>
+			<h3>User ID: ${custID}</h3>
+			<hr>
+			<div class="menu">
+				<button id="withDraw">Withdraw</button>
+				<button id="deposit">Deposit</button>
+				<button id="neft">Net Banking</button>
 
-
-	<%
-		if(session.getAttribute("name") == null){
-			response.sendRedirect("login.jsp");
-		}
-%>
-	<span>Hi, ${name} </span><br>
-	<span>User ID: ${custID}</span>
-
-	<br>
-	<button id="withDraw">Withdraw</button><br>
-	<div id="withdrawDiv">
-		<form action = "withdraw" method = "POST">
-			Enter Amount to be Withdrawn: <input type="text" name="amt" >
-			<input type="submit" value="Withdraw">
-		</form>
-	</div>
-	
-	<button id="deposit">Deposit</button><br>
-	<div id="depositDiv">
-		<form action = "deposit" method = "POST">
-			Enter Amount to be Deposited: <input type="text" name="amt" >
-			<input type="submit" value="Deposit">
-		</form>
-	</div>
-
-	<button id="neft">Net Banking</button><br>
-	<div id="neftDiv">
-		<form action="neft" method="POST">
-			Enter Recipient Account Number : <input type="text" name="acctNo">
-			Enter Amount to be Transferred :<input type="text" name="amt">
-			<input type="submit" value="Transact">
-		</form>
-	</div>
-
-	<a href="transaction.jsp"><button>View Transaction History</button></a>
-	<form action = "logout" method = "POST">
-		<input type="submit" value="Log out">
-	</form>
-	<%-- <% 	
-		response.setIntHeader("Refresh", 5);
-
-		String name = request.getParameter("name").toString();
-		out.println(name);
-		String lab = request.getAttribute("lab").toString();
-		out.println(lab);
-	%> --%>
-	<%-- <c:out value = "${name}" /> --%>
-	<script type="text/javascript" src="js/script.js"></script>
-</body>
+				<a href="transaction.jsp"><button>View Transaction History</button></a>
+				<form action = "logout" method = "POST">
+					<input type="submit" value="Log out">
+				</form>
+			</div>
+			<hr>
+			<div id="withdrawDiv" class="border">
+				<form action = "withdraw" method = "POST" onsubmit="return amtt(this);">
+					Enter Amount to be Withdrawn: <input type="text" name= "amt" required>
+					<span>${withDrawMessage}</span><br><br>
+					<input class="btn" type= "submit" value="Proceed">
+					<br><br>
+				</form>
+			</div>
+			<div id="depositDiv" class="border">
+				<form action = "deposit" method = "POST" onsubmit="return amtt(this);">
+					Enter Amount to be Deposited: <input type="text" name="amt" required><br>
+					<span>${depositMessage}</span><br><br>
+					<input class="btn" type="submit" value="Proceed">
+					<br><br>
+				</form>
+			</div>
+			<div id="neftDiv" class="border">
+				<form action="neft" method="POST" onsubmit="return amtt(this);">
+					Enter Recipient Account Number : <input type="text" name="acctNo" required><br><br>
+					Enter Amount to be Transferred :<input type="text" name="amt" required><br>
+					<span>${neftMessage}</span><br><br>
+					<input class="btn" type="submit" value="Proceed">
+					<br><br>
+				</form>
+			</div>
+		</div>
+		<script type="text/javascript" src="js/script.js"></script>
+		<script type="text/javascript" src="js/features.js"></script>
+	</body>
 </html>
