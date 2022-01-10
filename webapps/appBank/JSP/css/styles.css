@@ -1,5 +1,5 @@
-													/*login page*/
-.login{				/* have to remodule it */
+													/*login and signup page*/
+.form{				/* have to remodule it */
 	position:  absolute;
 	border: 10px solid rgb(45, 172, 179); 
 	border-radius: 20px;
@@ -11,13 +11,13 @@
 
 }
 
-.login h2{
+.form h2{
 	text-align: center;
 	background-image: linear-gradient(#5cf0f0,#368d8d);
     -webkit-background-clip: text;
     color: transparent; 
 }
-.form-for-login a{
+.user-form a{
 	font-size: large;
 	font-weight: 700;
 	position: absolute;
@@ -29,14 +29,14 @@
     color: transparent;
     padding-top: 20px;
 }
-.form-for-login label {
+.user-form label {
 	font-size: large;
 	color: black;
 	display: inline-block;
 	width: 50%;
 }
 
-.login .btn {
+.form .btn {
 	right: 120px;		/*100px for padding of parent element */
 }
 
@@ -51,17 +51,41 @@
 }
 
 
-											/*features.jsp*/
+											/*features.jsp - setting styles temporarily*/
+.features h2,.features h3{
+	text-align: center;
+}
+.menu {
+	text-align: center;
+}
+.menu form{
+	display: inline-block;
+}
 
-
-
-
-
-
+.border {
+	border: 5px solid rgb(45, 172, 179); 
+	border-radius: 20px;
+	padding: 10px;
+}
 
 #withdrawDiv,#depositDiv,#neftDiv{
 	display: none;
 }
+
+									/*transaction*/
+
+
+.transaction{
+	text-align: center;
+}
+
+.transaction form{
+	display: inline-block;
+}
+
+
+
+									/*general*/
 
 table{
 	border: 2px solid;
